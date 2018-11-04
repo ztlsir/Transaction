@@ -7,6 +7,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Transaction", "Transaction\
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Transaction.LightInject", "Transaction.LightInject\Transaction.LightInject.csproj", "{FCA79344-A5EC-4866-AF2E-01AEC3C97261}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Transaction.Test", "Transaction.Test\Transaction.Test.csproj", "{19246017-48BA-4807-BF15-932D686631FD}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Transaction.Dapper", "Transaction.Dapper\Transaction.Dapper.csproj", "{922BEDB8-AE0F-4FF4-82FB-51CC313838D2}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +25,14 @@ Global
 		{FCA79344-A5EC-4866-AF2E-01AEC3C97261}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FCA79344-A5EC-4866-AF2E-01AEC3C97261}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FCA79344-A5EC-4866-AF2E-01AEC3C97261}.Release|Any CPU.Build.0 = Release|Any CPU
+		{19246017-48BA-4807-BF15-932D686631FD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{19246017-48BA-4807-BF15-932D686631FD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{19246017-48BA-4807-BF15-932D686631FD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{19246017-48BA-4807-BF15-932D686631FD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{922BEDB8-AE0F-4FF4-82FB-51CC313838D2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{922BEDB8-AE0F-4FF4-82FB-51CC313838D2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{922BEDB8-AE0F-4FF4-82FB-51CC313838D2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{922BEDB8-AE0F-4FF4-82FB-51CC313838D2}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
