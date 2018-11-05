@@ -23,7 +23,7 @@ namespace Transaction
 
             transactionManager = createTransactionMananger();
 
-            if (BaseTransactionManager.IsUseTransaction())
+            if (TransactionSwitch.IsUseTransaction())
             {
                 transactionManager.BeginTransaction();
             }

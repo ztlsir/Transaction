@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace Transaction
@@ -10,7 +11,7 @@ namespace Transaction
     {
         protected void ExecuteByTransection(Action transactionAction)
         {
-            BaseTransactionManager.TurnOn();
+            TransactionSwitch.TurnOn();
 
             BaseTransactionManager transactionManager = null;
             try
@@ -26,7 +27,7 @@ namespace Transaction
             }
             finally
             {
-                BaseTransactionManager.TurnOff();
+                TransactionSwitch.TurnOff();
                 transactionManager.Dispose();
             }
         }
