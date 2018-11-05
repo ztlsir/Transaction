@@ -8,9 +8,9 @@ using System.Threading.Tasks;
 
 namespace Transaction
 {
-    public class TransactionManager
+    public abstract class BaseTransactionManager
     {
-        private const string TRAN_FLAG_SLOT = "TRAN_FLAG_SLOT";
+        protected const string TRAN_FLAG_SLOT = "TRAN_FLAG_SLOT";
 
         public static void TurnOn()
         {
@@ -24,13 +24,13 @@ namespace Transaction
 
         private static void SetTranFlag(bool isTran)
         {
-            var isTranDataSlot = DBConnectionManager.GetOrAllocateNamedDataSlot(TRAN_FLAG_SLOT);
+            var isTranDataSlot = TransactionManagerFactory.GetOrAllocateNamedDataSlot(TRAN_FLAG_SLOT);
             Thread.SetData(isTranDataSlot, isTran);
         }
 
         public static bool IsUseTransaction()
         {
-            var isTranDataSlot = DBConnectionManager.GetOrAllocateNamedDataSlot(TRAN_FLAG_SLOT);
+            var isTranDataSlot = TransactionManagerFactory.GetOrAllocateNamedDataSlot(TRAN_FLAG_SLOT);
             var data = Thread.GetData(isTranDataSlot);
 
             if (data == null)
@@ -40,5 +40,13 @@ namespace Transaction
 
             return (bool)data;
         }
+
+        public abstract void BeginTransaction();
+
+        public abstract void Commit();
+
+        public abstract void Rollback();
+
+        public abstract void Dispose();
     }
 }

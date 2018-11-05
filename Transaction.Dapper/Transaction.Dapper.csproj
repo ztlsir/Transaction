@@ -52,10 +52,12 @@
     <Otherwise />
   </Choose>
   <ItemGroup>
+    <Compile Include="DapperTransactionManager.cs" />
+    <Compile Include="ConnectionHolder.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="DapperConnection.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="TransactionDapper.cs" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>

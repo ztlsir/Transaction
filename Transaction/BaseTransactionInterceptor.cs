@@ -10,24 +10,24 @@ namespace Transaction
     {
         protected void ExecuteByTransection(Action transactionAction)
         {
-            TransactionManager.TurnOn();
+            BaseTransactionManager.TurnOn();
 
-            DBConnection connection = null;
+            BaseTransactionManager transactionManager = null;
             try
             {
                 transactionAction();
 
-                connection = DBConnectionManager.GetCurrentThreadDBConnection<DBConnection>();
-                connection.Commit();
+                transactionManager = TransactionManagerFactory.GetCurrentThreadTransactionManager();
+                transactionManager.Commit();
             }
             catch (Exception)
             {
-                connection.Rollback();
+                transactionManager.Rollback();
             }
             finally
             {
-                TransactionManager.TurnOff();
-                connection.Dispose();
+                BaseTransactionManager.TurnOff();
+                transactionManager.Dispose();
             }
         }
     }

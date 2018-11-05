@@ -22,7 +22,7 @@ namespace Transaction.Test.LightInjectTest.TestClass
 
         public int AddUserInfo(User user)
         {
-            var conn = DBConnectionManager.GetDBConnection<SqlServerConnectionManager, TransactionDapper>("Server=.;database=test;uid=sa;pwd=123456");
+            var conn = new DapperConnection("Server=.;database=test;uid=sa;pwd=123456");
             return conn.Execute(
                 "insert into [Users](Id,Name,Number,Date,CreateTime) values(@Id,@Name,@Number,@Date,@CreateTime)",
                 user);
