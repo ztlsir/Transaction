@@ -63,7 +63,9 @@
   </Choose>
   <ItemGroup>
     <Compile Include="LightInjectTest\LightInjectTest.cs" />
+    <Compile Include="LightInjectTest\TestClass\InterceptorTest2.cs" />
     <Compile Include="LightInjectTest\TestClass\InterceptorTest.cs" />
+    <Compile Include="LightInjectTest\TestClass\User.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
