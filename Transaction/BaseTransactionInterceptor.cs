@@ -29,6 +29,7 @@ namespace Transaction
             {
                 TransactionSwitch.TurnOff();
                 transactionManager.Dispose();
+                TransactionManagerFactory.ClearCurrentThreadTransactionManager();
             }
         }
     }

@@ -11,7 +11,7 @@ namespace Transaction
     public abstract class TransactionManagerFactory
     {
         private const string TRANSACTION_MANAGER = "TRANSACTION_MANAGER";
-        
+
         public static BaseTransactionManager GetOrSetTransactionManager(Func<BaseTransactionManager> createTransactionMananger)
         {
             var transactionManager = GetCurrentThreadTransactionManager();
@@ -35,30 +35,17 @@ namespace Transaction
 
         public static BaseTransactionManager GetCurrentThreadTransactionManager()
         {
-            var connDataSlot = Thread.GetNamedDataSlot(TRANSACTION_MANAGER);
-            if (connDataSlot == null)
-            {
-                return null;
-            }
+            return ThreadStaticStorage.GetData(TRANSACTION_MANAGER) as BaseTransactionManager;
+        }
 
-            return Thread.GetData(connDataSlot) as BaseTransactionManager;
+        public static void ClearCurrentThreadTransactionManager()
+        {
+            ThreadStaticStorage.FreeNamedDataSlot(TRANSACTION_MANAGER);
         }
 
         private static void SetCurrentThreadTransactionManager(BaseTransactionManager transactionManager)
         {
-            var connDataSlot = GetOrAllocateNamedDataSlot(TRANSACTION_MANAGER);
-            Thread.SetData(connDataSlot, transactionManager);
-        }
-
-        public static LocalDataStoreSlot GetOrAllocateNamedDataSlot(string slotName)
-        {
-            var slot = Thread.GetNamedDataSlot(slotName);
-            if (slot == null)
-            {
-                slot = Thread.AllocateNamedDataSlot(slotName);
-            }
-
-            return slot;
+            ThreadStaticStorage.SetData(TRANSACTION_MANAGER, transactionManager);
         }
     }
 }

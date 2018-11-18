@@ -22,109 +22,114 @@ namespace Transaction.Test.LightInjectTest
         [TestMethod]
         public void InterceptorTest()
         {
-            var container = new ServiceContainer();
-            container.Register<InterceptorTest>();
-            container.Intercept(sr =>
+            using (var container = new ServiceContainer())
             {
-                return sr.ServiceType == typeof(InterceptorTest);
-            }, sf => new TransactionInterceptor());
-
-            var interceptorTest = container.GetInstance<InterceptorTest>();
-            interceptorTest.AddTwoUser(
-                Guid.NewGuid().ToString(),
-                Guid.NewGuid().ToString(),
-                new User
+                container.Register<InterceptorTest>();
+                container.Intercept(sr =>
                 {
-                    CreateTime = DateTime.Now,
-                    Date = "test_date",
-                    Name = "test_name",
-                    Number = "test_number"
-                });
+                    return sr.ServiceType == typeof(InterceptorTest);
+                }, sf => new TransactionInterceptor());
+
+                var interceptorTest = container.GetInstance<InterceptorTest>();
+                interceptorTest.AddTwoUser(
+                    Guid.NewGuid().ToString(),
+                    Guid.NewGuid().ToString(),
+                    new User
+                    {
+                        CreateTime = DateTime.Now,
+                        Date = "test_date",
+                        Name = "test_name",
+                        Number = "test_number"
+                    });
+            }
         }
 
         [TestMethod]
         public void TaskTest()
         {
-            var container = new ServiceContainer();
-            container.Register<InterceptorTest>();
-            container.Intercept(sr =>
+            using (var container = new ServiceContainer())
             {
-                return sr.ServiceType == typeof(InterceptorTest);
-            }, sf => new TransactionInterceptor());
-            Task.Run(() =>
-            {
-                var interceptorTest = container.GetInstance<InterceptorTest>();
+                container.Register<InterceptorTest>();
+                container.Intercept(sr =>
+                {
+                    return sr.ServiceType == typeof(InterceptorTest);
+                }, sf => new TransactionInterceptor());
+                Task.Run(() =>
+                {
+                    var interceptorTest = container.GetInstance<InterceptorTest>();
 
-                interceptorTest.AddTwoUser(
-                    Guid.NewGuid().ToString(),
-                    Guid.NewGuid().ToString(),
-                    new User
-                    {
-                        CreateTime = DateTime.Now,
-                        Date = "test_date",
-                        Name = "test_name",
-                        Number = "test_number"
-                    });
-            }).Wait();
+                    interceptorTest.AddTwoUser(
+                        Guid.NewGuid().ToString(),
+                        Guid.NewGuid().ToString(),
+                        new User
+                        {
+                            CreateTime = DateTime.Now,
+                            Date = "test_date",
+                            Name = "test_name",
+                            Number = "test_number"
+                        });
+                }).Wait();
+            }
         }
 
         [TestMethod]
-        public void ThreadsTest2()
+        public void ThreadsTest()
         {
-            var container = new ServiceContainer();
-            container.Register<InterceptorTest>();
-            container.Register<InterceptorTest2>();
-            container.Intercept(sr =>
+            using (var container = new ServiceContainer())
             {
-                return sr.ServiceType == typeof(InterceptorTest);
-            }, sf => new TransactionInterceptor());
-            container.Intercept(sr =>
-            {
-                return sr.ServiceType == typeof(InterceptorTest2);
-            }, sf => new TransactionInterceptor());
-
-            List<Action> actions = new List<Action>();
-            actions.Add(() =>
-            {
-                var interceptorTest = container.GetInstance<InterceptorTest>();
-                interceptorTest.AddTwoUser(
-                    Guid.NewGuid().ToString(),
-                    Guid.NewGuid().ToString(),
-                    new User
-                    {
-                        CreateTime = DateTime.Now,
-                        Date = "test_date",
-                        Name = "test_name",
-                        Number = "test_number"
-                    });
-            });
-
-            actions.Add(() =>
-            {
-                var interceptorTest = container.GetInstance<InterceptorTest2>();
-                interceptorTest.AddTwoUserToTest2(
-                    Guid.NewGuid().ToString(),
-                    Guid.NewGuid().ToString(),
-                    new User
-                    {
-                        CreateTime = DateTime.Now,
-                        Date = "test_date",
-                        Name = "test_name",
-                        Number = "test_number"
-                    });
-            });
-
-            Parallel.ForEach(
-                actions,
-                new ParallelOptions()
+                container.Register<InterceptorTest>();
+                container.Register<InterceptorTest2>();
+                container.Intercept(sr =>
                 {
-                    MaxDegreeOfParallelism = actions.Count
-                },
-                action =>
+                    return sr.ServiceType == typeof(InterceptorTest);
+                }, sf => new TransactionInterceptor());
+                container.Intercept(sr =>
                 {
-                    action();
+                    return sr.ServiceType == typeof(InterceptorTest2);
+                }, sf => new TransactionInterceptor());
+
+                List<Action> actions = new List<Action>();
+                actions.Add(() =>
+                {
+                    var interceptorTest = container.GetInstance<InterceptorTest>();
+                    interceptorTest.AddTwoUser(
+                        Guid.NewGuid().ToString(),
+                        Guid.NewGuid().ToString(),
+                        new User
+                        {
+                            CreateTime = DateTime.Now,
+                            Date = "test_date",
+                            Name = "test_name",
+                            Number = "test_number"
+                        });
                 });
 
+                actions.Add(() =>
+                {
+                    var interceptorTest = container.GetInstance<InterceptorTest2>();
+                    interceptorTest.AddTwoUserToTest2(
+                        Guid.NewGuid().ToString(),
+                        Guid.NewGuid().ToString(),
+                        new User
+                        {
+                            CreateTime = DateTime.Now,
+                            Date = "test_date",
+                            Name = "test_name",
+                            Number = "test_number"
+                        });
+                });
+
+                Parallel.ForEach(
+                    actions,
+                    new ParallelOptions()
+                    {
+                        MaxDegreeOfParallelism = actions.Count
+                    },
+                    action =>
+                    {
+                        action();
+                    });
+            }
         }
     }
 }

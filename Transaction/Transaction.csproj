@@ -47,7 +47,6 @@
     <Compile Include="BaseTransactionInterceptor.cs" />
     <Compile Include="BaseTransactionManager.cs" />
     <Compile Include="ConnectionHolder.cs" />
-    <Compile Include="IThreadStorage.cs" />
     <Compile Include="ThreadStaticStorage.cs" />
     <Compile Include="TransactionManagerFactory.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

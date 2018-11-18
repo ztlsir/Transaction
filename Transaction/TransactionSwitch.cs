@@ -23,14 +23,12 @@ namespace Transaction
 
         private static void SetTranFlag(bool isTran)
         {
-            var isTranDataSlot = TransactionManagerFactory.GetOrAllocateNamedDataSlot(TRAN_FLAG_SLOT);
-            Thread.SetData(isTranDataSlot, isTran);
+            ThreadStaticStorage.SetData(TRAN_FLAG_SLOT, isTran);
         }
 
         public static bool IsUseTransaction()
         {
-            var isTranDataSlot = TransactionManagerFactory.GetOrAllocateNamedDataSlot(TRAN_FLAG_SLOT);
-            var data = Thread.GetData(isTranDataSlot);
+            var data = ThreadStaticStorage.GetData(TRAN_FLAG_SLOT);
 
             if (data == null)
             {
